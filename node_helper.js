@@ -19,7 +19,7 @@ module.exports = NodeHelper.create({
 			fetchInterval=1000;
 			url="http://apps.ecomerc.com/nokiahealth/user.php?userid=" + payload.userid ;
 			self.refreshTimer = setInterval(function() {
-				fetcher(url, payload.userid, fetchInterval);
+				self.fetcher(url, payload.userid, fetchInterval);
 			}, fetchInterval);
 		}
 	},
@@ -46,9 +46,6 @@ module.exports = NodeHelper.create({
 					userid: userid,
 				});
 			}
-			self.refreshTimer = setInterval(function() {
-				fetcher(url, userid, fetchInterval);
-			}, fetchInterval);
 		});	
 	},
 	
