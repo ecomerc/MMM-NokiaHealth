@@ -83,7 +83,7 @@ Module.register("MMM-iFrame",{
 			
 			self.autohideTimer = setInterval(function() {
 				self.hide(1000);
-			}, 60000);
+			}, 30000);
 		}
 	},
 
