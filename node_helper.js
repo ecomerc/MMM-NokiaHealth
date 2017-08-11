@@ -16,7 +16,7 @@ module.exports = NodeHelper.create({
 		
 		if (notification === "ADD_NOKIAHEALTHUSER") {
 			console.log(this.name + " received a socket notification: " + notification);
-			fetchInterval=3000;
+			fetchInterval=10000;
 			url="http://apps.ecomerc.com/nokiahealth/user.php?userid=" + payload.userid ;
 			self.refreshTimer = setInterval(function() {
 				self.fetcher(url, payload.userid, fetchInterval);
@@ -37,7 +37,7 @@ module.exports = NodeHelper.create({
 	fetcher: function(url, userid, fetchInterval) {
 		var self = this;
 		request(url + "&dummy=" + Math.random(), function (error, response, body) {
-			console.log(self.name + " checked update for " + userid + " was: " + body);
+			console.log(self.name + " checked update for " + userid + " was: " + body + " url: " + url + " (" + response + ")");
 			if (body=="1") {
 				self.sendSocketNotification("NOKIAHEALTH_USERUPDATED", {
 					userid: userid,
