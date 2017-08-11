@@ -7,7 +7,7 @@
  * MIT Licensed.
  */
 
-Module.register("MMM-iFrame",{
+Module.register("MMM-NokiaHealth",{
 	// Default module config.
 	defaults: {
 			height:"300px",
