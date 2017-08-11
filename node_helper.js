@@ -37,7 +37,7 @@ module.exports = NodeHelper.create({
 	fetcher: function(url, userid, fetchInterval) {
 		var self = this;
 		request(url + "&dummy=" + Math.random(), function (error, response, body) {
-			console.log(this.name + " checked update for " + userid + " was: " + body);
+			console.log(self.name + " checked update for " + userid + " was: " + body);
 			if (body=="1") {
 				self.sendSocketNotification("NOKIAHEALTH_USERUPDATED", {
 					userid: userid,
