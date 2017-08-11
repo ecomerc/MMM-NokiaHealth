@@ -62,6 +62,8 @@ Module.register("MMM-iFrame",{
 	},
 	
 	notificationReceived: function(notification, payload, sender) {
+		self=this;
+		
 		if (sender) {
 			Log.log(this.name + " received a module notification: " + notification + " from sender: " + sender.name);
 		} else {
@@ -71,11 +73,17 @@ Module.register("MMM-iFrame",{
 			this.hide();
 		}
 	},
+	
 	socketNotificationReceived: function(notification, payload) {
+		self=this;
 		Log.log(this.name + " received a socket notification: " + notification + " - Payload: " + payload);
 		if (notification == "NOKIAHEALTH_USERUPDATED") {
 			this.show();
 			this.iframe.src="http://apps.ecomerc.com/nokiahealth/code.php?userid=" + payload.userid;
+			
+			self.autohideTimer = setInterval(function() {
+				self.hide(1000);
+			}, 60000);
 		}
 	},
 

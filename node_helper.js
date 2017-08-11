@@ -1,4 +1,5 @@
 var NodeHelper = require("node_helper");
+var request = require('request');
 
 
 
@@ -14,16 +15,11 @@ module.exports = NodeHelper.create({
 		var self = this;
 		
 		if (notification === "ADD_NOKIAHEALTHUSER") {
-			//check url=http://apps.ecomerc.com/nokiahealth/user.php?userid=
-			
-			//DEMO: JUST SHOW AFTER 5 SECONDS
+			fetchInterval=1000;
+			url="http://apps.ecomerc.com/nokiahealth/user.php?userid=" + payload.userid;
 			self.refreshTimer = setInterval(function() {
-
-				self.sendSocketNotification("NOKIAHEALTH_USERUPDATED", {
-					userid: payload.userid,
-				});
-
-			}, 5000);
+				fetcher(url, payload.userid, fetchInterval);
+			}, fetchInterval);
 		}
 	},
 	
@@ -37,8 +33,20 @@ module.exports = NodeHelper.create({
 	 * attribute reloadInterval number - Reload interval in milliseconds.
 	 */
 
-	createFetcher: function(url, fetchInterval, maximumEntries, maximumNumberOfDays, auth) {
+	fetcher: function(url, userid, fetchInterval) {
 		var self = this;
-
-	}
+		request(url, function (error, response, body) {
+			console.log('error:', error); // Print the error if one occurred
+			console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
+			if (body=="1") {
+				self.sendSocketNotification("NOKIAHEALTH_USERUPDATED", {
+					userid: userid,
+				});
+			}
+			self.refreshTimer = setInterval(function() {
+				fetcher(url, userid, fetchInterval);
+			}, fetchInterval);
+		});	
+	},
+	
 });
