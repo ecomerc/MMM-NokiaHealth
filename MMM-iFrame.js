@@ -27,7 +27,7 @@ Module.register("MMM-iFrame",{
 				 }, this.config.updateInterval);
 		}
 		this.config.userid.forEach(function (item) {
-			this.sendSocketNotification("ADD_NOKIAHEALTHUSER", {
+			self.sendSocketNotification("ADD_NOKIAHEALTHUSER", {
 				userid: item
 			});
 		});
