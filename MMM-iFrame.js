@@ -57,7 +57,7 @@ Module.register("MMM-iFrame",{
 		console.log("URL_length:" + this.config.userid.length + " " + "URL_index:" + user_index + " " + "url:" + futureURL);
 		this.iframe.src = futureURL;
 					
-		return iframe;
+		return this.iframe;
 
 	},
 	
