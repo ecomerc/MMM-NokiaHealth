@@ -14,18 +14,21 @@ Module.register("MMM-NokiaHealth",{
 			width:"100%",
 			updateInterval: 0.5 * 60 * 1000,
 			userid: ["0"],
+			autohide: true,
 	},
 	iframe: null,
 
 	start: function () {
 		self = this;
 		var count = 0;
+		/*
 		if (this.config.userid.length > 1 ) {
 			  setInterval( function () { 
 				 self.updateDom(1000);
 				 console.log('update' + count++)
 				 }, this.config.updateInterval);
 		}
+		*/
 		this.config.userid.forEach(function (item) {
 			self.sendSocketNotification("ADD_NOKIAHEALTHUSER", {
 				userid: item
@@ -51,7 +54,7 @@ Module.register("MMM-NokiaHealth",{
 		this.iframe.scrolling = "no";
 		var url_index = 0;
 		var repeat = true;
-		
+		 
 		user_index = this.getRandomInt(0,this.config.userid.length);
 		futureURL = "http://apps.ecomerc.com/nokiahealth/code.php?userid=" + this.config.userid[user_index];
 		console.log("URL_length:" + this.config.userid.length + " " + "URL_index:" + user_index + " " + "url:" + futureURL);
@@ -69,8 +72,11 @@ Module.register("MMM-NokiaHealth",{
 		} else {
 			Log.log(this.name + " received a system notification: " + notification);
 		}
-		if (notification == "DOM_OBJECTS_CREATED") {
-			this.hide();
+		
+		if (this.config.autohide) {
+			if (notification == "DOM_OBJECTS_CREATED") {
+				this.hide();
+			}
 		}
 	},
 	
@@ -80,10 +86,11 @@ Module.register("MMM-NokiaHealth",{
 		if (notification == "NOKIAHEALTH_USERUPDATED") {
 			this.show();
 			this.iframe.src="http://apps.ecomerc.com/nokiahealth/code.php?userid=" + payload.userid;
-			
-			self.autohideTimer = setInterval(function() {
-				self.hide(1000);
-			}, 30000);
+			if (this.config.autohide) {
+				self.autohideTimer = setInterval(function() {
+					self.hide(1000);
+				}, 30000);
+			}
 		}
 	},
 
